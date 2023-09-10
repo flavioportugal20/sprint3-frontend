@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>Projeto</title>
+</head>
+
+<body>
+     <!-- Cabeçalho de informações do sistema -->
+    <header>
+        <div class="title">
+            <h2>Sistema de Cadastro de Acessos</h2>
+        </div>
+        
+    </header>
+
+    <section class="bloco">
+        <div class="small-box bg-green">
+            <div class="flex">
+                <div class="inner">
+                    <h3 id="countAcesso">0</h3>
+                    <p>Total de Acessos</p>					  
+                </div>
+                <div class="icon">
+                    <ion-icon name="checkmark-outline"></ion-icon>
+                </div>
+            </div>
+        </div>   
+        <div class="small-box bg-yellow">
+            <div class="flex">
+                <div class="inner">
+                    <h3 id="countAcessoObs">0</h3>
+                    <p>Acessos com observações</p>					  
+                </div>
+                <div class="icon">
+                    <ion-icon name="alert-outline"></ion-icon>
+                </div>
+            </div>
+        </div>   
+        <div class="small-box bg-red">
+            <div class="flex">
+                <div class="inner">
+                    <h3 id="countVisitante">0</h3>
+                    <p>Visitantes bloqueados</p>					  
+                </div>
+                <div class="icon">
+                    <ion-icon name="ban-outline"></ion-icon>
+                </div>
+            </div>
+        </div>   
+    </section>
+
+    <section class="bloco-botoes">  
+        <button class="btn button" onclick="abrirCadastroVisitante()">Cadastrar Acesso do Visitante</button>   
+    </section>
+
+    <!-- Tabela com acessos existentes -->
+    <section class="items">
+        <table id="tabela-acesso">
+            <tr id="header-acesso">
+				 <th style="width: 10%;">ID</th>
+				 <th style="width: 20%;">Nome do Visitante</th>
+                 <th style="width: 15%;">CPF</th>
+                 <th style="width: 15%;">Imóvel</th>
+                 <th style="width: 16%;">Tipo Acesso</th>
+                 <th class="colunaCenter" style="width: 14%;">Data Acesso</th>
+                <th class="colunaCenter" style="width: 10%;">Visualizar</th>
+            </tr>			
+        </table>
+    </section>
+
+    <!-- Modal cadastro visitante -->
+    <div id="dv-modal-visitante-cadastro" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">               
+                <ion-icon class="close-modal" onclick="closeModal('dv-modal-visitante-cadastro')" name="close-outline"></ion-icon>
+                <h1>Cadastro Visitante</h1>
+            </div>
+
+            <div class="modal-body">
+                <div>
+                    <!-- Opções para adicionar um novo item -->
+                    <input type="hidden" id="idVisitante">
+                    <label for="newNome">Nome</label>
+                    <input type="text" id="newNome" placeholder="Nome:">
+                    <label for="newCpf">Cpf</label>
+                    <input type="text" id="newCpf" oninput="mascara(this, 'cpf')" placeholder="Cpf:">
+                    <label for="newStatus">Status</label>
+                    <select id="newStatus" placeholder="Status:"></select>
+                    <label for="obsVisitante">Observações</label>
+                    <textarea id="obsVisitante" rows="2" cols="50"></textarea>
+                    
+                </div>    
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn button btn-cinza" onclick="closeModal('dv-modal-visitante-cadastro')">Fechar</button>
+                <div class="flex">
+                    <button id="btnSalvar" onclick="salvarVisitante()" class="btn button btn-azul">Adicionar</button>     
+                    <button id="btnEditar" onclick="editarVisitante()" class="btn button btn-azul">Editar</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal lista de visitantes -->
+    <div id="dv-modal-visitante" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">               
+                <ion-icon class="close-modal" onclick="closeModal('dv-modal-visitante')" name="close-outline"></ion-icon>
+                <h1>Cadastro Visitante</h1>
+            </div>
+
+            <div class="modal-body">
+                <section class="bloco-botoes">
+                    <button class="btn button" onclick="cadastrarNovoRegistroVisitante()">Novo Visitante</button>    
+                </section>
+            
+                <!-- Tabela com items existentes -->
+                <section class="items">
+                    <table id="tabela-visitante">
+                        <tr id="header-visitante">
+                            <th style="width: 8%;">ID</th>
+                            <th style="width: 30%;">Nome</th>
+                            <th style="width: 16%;">Cpf</th>
+                            <th class="colunaCenter" style="width: 12%;">Data Cadastro</th>
+                            <th class="colunaCenter" style="width: 16%;">Status</th>
+                            
+                            <th class="colunaCenter" style="width: 6%;">Acesso</th> 
+                            <th class="colunaCenter" style="width: 6%;">Editar</th>
+                            <th class="colunaCenter" style="width: 6%;">Excluir</th>
+                        </tr>
+                        
+                    </table>
+                </section>   
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal cadastro de acessos -->
+    <div id="dv-modal-acesso-cadastro" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">               
+                <ion-icon class="close-modal" onclick="closeModal('dv-modal-acesso-cadastro')" name="close-outline"></ion-icon>
+                <h1>Cadastro de Acesso</h1>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input type="hidden" id="idVisitanteAcesso">
+                    <label for="nomeVisitante">Visitante</label>
+                    <input id="nomeVisitante" type="text" disabled>
+                    <label for="cpfVisitanteAcesso">Cpf</label>
+                    <div>
+                    <input id="cpfVisitanteAcesso" type="text" disabled>
+                    <label for="localAcesso">Local Acesso</label>
+                    </div>
+                    <input id="localAcesso" type="text">
+                    <label for="tipoAcesso">Tipo Acesso</label>
+                    <select id="tipoAcesso">
+                        <option value="VISITA">Visita</option>
+                        <option value="PRESTACAO_SERVICO">Prestação de Serviço</option>
+                    </select>
+                    <label for="obsAcesso">Observações</label>
+                    <textarea id="obsAcesso" name="obsAcesso" rows="2" cols="50"></textarea>     
+                    <label id="labelDataAcesso" for="inputDataAcesso">Data do Acesso</label>
+                    <input id="inputDataAcesso" type="text" disabled>               
+                </div>    
+            </div>
+            <div class="modal-footer">
+                <button class="btn button btn-cinza" onclick="closeModal('dv-modal-acesso-cadastro')">Fechar</button>
+                <div class="flex">
+                    <button id="btnSalvarAcesso" onclick="salvarAcesso()" class="btn button btn-azul">Registrar Acesso</button>     
+                </div>               
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="scripts.js"></script>
+
+</body>
+
+</html>
+
+
