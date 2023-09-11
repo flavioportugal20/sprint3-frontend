@@ -398,8 +398,19 @@ input[type=text], select, textarea {
     color: #938e8e;
 }
 
+.campo-duas-colunas {
+	display: flex;
+}
 
+.campo-duas-colunas div:first-child {
+	width: 50%;
+}
 
+.campo-duas-colunas div:last-child {
+	width: 50%;
+    padding-left: 10px;
+}
 
-
-
+.campo-desabilitado {
+	background-color: #e5e5e5;
+}

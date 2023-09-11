@@ -53,6 +53,13 @@ function mascara(i,t){
      i.setAttribute("maxlength", "14");
      if (v.length == 3 || v.length == 7) i.value += ".";
      if (v.length == 11) i.value += "-";
+	 return;
+  }
+  
+  if(t == "cep"){
+     i.setAttribute("maxlength", "9");
+     if (v.length == 5) i.value += "-";
+	 return;
   }
 
 }
@@ -117,7 +124,14 @@ const getVisitante = async (idVisitante) => {
 		document.getElementById("newNome").value = data.nome
 		document.getElementById("newCpf").value = data.cpf
 		document.getElementById("newStatus").value = data.status
-    document.getElementById("obsVisitante").value = data.observacao
+        document.getElementById("obsVisitante").value = data.observacao
+		document.getElementById("cep").value = data.cep
+		document.getElementById("logradouro").value = data.logradouro
+		document.getElementById("numero").value = data.numero
+		document.getElementById("bairro").value = data.bairro
+		document.getElementById("cidade").value = data.cidade
+		document.getElementById("estado").value = data.estado
+		document.getElementById("cidade-estado").value = data.cidade + " - " + data.estado
     })
     .catch((error) => {
       alert(error);
@@ -149,12 +163,27 @@ const getListStatusVisitante = async () => {
   Função para adicionar um item na lista de visitantes do servidor via requisição POST
   --------------------------------------------------------------------------------------
 */
-const postItemVisitante = async (inputNome, inputCpf, inputStatus, inputObservacao) => {
+const postItemVisitante = async (inputNome, 
+								 inputCpf, 
+								 inputStatus, 
+								 inputObservacao, 
+								 inputCep,
+								 inputLogradouro, 
+							     inputNumero, 
+							     inputBairro, 
+							     inputCidade, 
+							     inputEstado) => {
   const formData = new FormData();
   formData.append('nome', inputNome);
   formData.append('cpf', inputCpf);
   formData.append('status', inputStatus);
   formData.append('observacao', inputObservacao);
+  formData.append('cep', inputCep);
+  formData.append('logradouro', inputLogradouro);
+  formData.append('numero', inputNumero);
+  formData.append('bairro', inputBairro);
+  formData.append('cidade', inputCidade);
+  formData.append('estado', inputEstado);
 
   let url = 'http://127.0.0.1:5000/visitante';
   fetch(url, {
@@ -176,13 +205,29 @@ const postItemVisitante = async (inputNome, inputCpf, inputStatus, inputObservac
   Função para alterar um item na lista de visitantes do servidor via requisição POST
   --------------------------------------------------------------------------------------
 */
-const putItemVisitante = async (idVisitante, inputNome, inputCpf, inputStatus, inputObservacao) => {
+const putItemVisitante = async (idVisitante, 
+								inputNome, 
+								inputCpf, 
+								inputStatus, 
+								inputObservacao, 
+								inputCep,
+								inputLogradouro, 
+							    inputNumero, 
+							    inputBairro, 
+							    inputCidade, 
+							    inputEstado) => {
   const formData = new FormData();
   formData.append('id', idVisitante);
   formData.append('nome', inputNome);
   formData.append('cpf', inputCpf);
   formData.append('status', inputStatus);
   formData.append('observacao', inputObservacao);
+  formData.append('cep', inputCep);
+  formData.append('logradouro', inputLogradouro);
+  formData.append('numero', inputNumero);
+  formData.append('bairro', inputBairro);
+  formData.append('cidade', inputCidade);
+  formData.append('estado', inputEstado);
 
   let url = 'http://127.0.0.1:5000/visitante';
   fetch(url, {
@@ -392,9 +437,24 @@ const salvarVisitante = () => {
   let inputCpf = document.getElementById("newCpf").value;
   let inputStatus = $('#newStatus :selected');
   let inputObservacao = document.getElementById("obsVisitante").value;
+  let inputCep = document.getElementById("cep").value;
+  let inputLogradouro = document.getElementById("logradouro").value;
+  let inputNumero = document.getElementById("numero").value;
+  let inputBairro = document.getElementById("bairro").value;
+  let inputCidade = document.getElementById("cidade").value;
+  let inputEstado = document.getElementById("estado").value;
 
   if (confirm("Você tem certeza deseja salvar?")) {
-    postItemVisitante(inputNome, inputCpf, inputStatus.val(), inputObservacao)
+    postItemVisitante(inputNome, 
+					  inputCpf, 
+					  inputStatus.val(), 
+					  inputObservacao, 
+					  inputCep,
+					  inputLogradouro, 
+					  inputNumero, 
+					  inputBairro, 
+					  inputCidade, 
+					  inputEstado)
     alert("Item salvo com sucesso!")
     limparFormVisitante();
 	  return
@@ -403,7 +463,7 @@ const salvarVisitante = () => {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para editar um visitante no servidor via requisição POST
+  Função para editar um visitante no servidor via requisição PUT
   --------------------------------------------------------------------------------------
 */
 const editarVisitante = () => {	
@@ -413,9 +473,25 @@ const editarVisitante = () => {
   let inputCpf = document.getElementById("newCpf").value;
   let inputStatus = $('#newStatus :selected');
   let inputObservacao = document.getElementById("obsVisitante").value;
+  let inputCep = document.getElementById("cep").value;
+  let inputLogradouro = document.getElementById("logradouro").value;
+  let inputNumero = document.getElementById("numero").value;
+  let inputBairro = document.getElementById("bairro").value;
+  let inputCidade = document.getElementById("cidade").value;
+  let inputEstado = document.getElementById("estado").value;
  
   if (confirm("Você tem certeza deseja editar?")) {
-	  putItemVisitante(idVisitante, inputNome, inputCpf, inputStatus.val(), inputObservacao)
+	  putItemVisitante(idVisitante, 
+					   inputNome, 
+					   inputCpf, 
+					   inputStatus.val(), 
+					   inputObservacao,
+					   inputCep,
+					   inputLogradouro, 
+					   inputNumero, 
+					   inputBairro, 
+					   inputCidade, 
+					   inputEstado)
 	  alert("Item atualizado com sucesso!")
 	  return
   }
@@ -485,6 +561,63 @@ const limparFormVisitante = () => {
   document.getElementById("newStatus").value = "ATIVO";
   document.getElementById("idVisitante").value = "";
   document.getElementById("obsVisitante").value = "";
+  document.getElementById("cep").value = "";
+  document.getElementById("logradouro").value = "";
+  document.getElementById("numero").value = "";
+  document.getElementById("bairro").value = "";
+  document.getElementById("cidade-estado").value  = "";
+  document.getElementById("cidade").value = "";
+  document.getElementById("estado").value = "";
+}
+
+/*
+  --------------------------------------------------------------------------------------
+  Função para buscar dados do cep informado através de uma API externa pública via requisição GET
+  --------------------------------------------------------------------------------------
+*/
+const getDadosCep = async (cep) => {
+  let url = 'https://opencep.com/v1/' + cep;
+  fetch(url, {
+    method: 'get',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+		if(data.error){
+			alert("CEP inválido!");
+			return;
+		}
+		document.getElementById("logradouro").value = data.logradouro;
+		document.getElementById("bairro").value = data.bairro;
+		document.getElementById("cidade-estado").value = data.localidade + " - " + data.uf;
+		document.getElementById("cidade").value = data.localidade;
+		document.getElementById("estado").value = data.uf;
+    })
+    .catch((error) => {
+      alert(error);
+    });
+}
+
+/*
+  --------------------------------------------------------------------------------------
+  Função para pesquisar endereço por cep
+  --------------------------------------------------------------------------------------
+*/
+const buscarEnderecoPorCep = () => {
+  let cep = document.getElementById("cep").value;	
+  let cepSemFormatacao = cep.replace('-', '');
+  document.getElementById("logradouro").value = "";
+  document.getElementById("numero").value = "";
+  document.getElementById("bairro").value = "";
+  document.getElementById("cidade-estado").value = "";
+  document.getElementById("cidade").value = "";
+  document.getElementById("estado").value = "";
+  if(cepSemFormatacao.length == 8){
+	getDadosCep(cepSemFormatacao); 
+	return;
+  }
+	  
+	
+  
 }
 
 /*

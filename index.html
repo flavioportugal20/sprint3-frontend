@@ -89,14 +89,49 @@
                 <div>
                     <!-- Opções para adicionar um novo item -->
                     <input type="hidden" id="idVisitante">
+					<input type="hidden" id="cidade">
+					<input type="hidden" id="estado">
+					
                     <label for="newNome">Nome</label>
                     <input type="text" id="newNome" placeholder="Nome:">
-                    <label for="newCpf">Cpf</label>
-                    <input type="text" id="newCpf" oninput="mascara(this, 'cpf')" placeholder="Cpf:">
-                    <label for="newStatus">Status</label>
-                    <select id="newStatus" placeholder="Status:"></select>
+					<div class="campo-duas-colunas">
+						<div>
+							<label for="newCpf">Cpf</label>
+							<input type="text" id="newCpf" oninput="mascara(this, 'cpf')" placeholder="Cpf">
+						</div>
+						<div>
+							<label for="newStatus">Status</label>
+							<select id="newStatus" placeholder="Status:"></select>
+						</div>
+					</div>
                     <label for="obsVisitante">Observações</label>
                     <textarea id="obsVisitante" rows="2" cols="50"></textarea>
+					
+					<div style="display: flex;">
+						<div style="width:20%">
+							<label for="cep">Cep</label>
+							<input type="text" id="cep" oninput="mascara(this, 'cep'); buscarEnderecoPorCep();" placeholder="Digite aqui">
+						</div>
+						<div style="width:70%; padding-left: 10px;">
+							<label for="logradouro">Logradouro</label>
+							<input type="text" id="logradouro" class="campo-desabilitado" disabled="">
+						</div>
+						<div style="width:20%; padding-left: 10px;">
+							<label for="numero">Número</label>
+							<input type="text" id="numero" placeholder="Digite aqui">
+						</div>
+					</div>
+					
+					<div class="campo-duas-colunas">
+						<div>
+							<label for="bairro">Bairro</label>
+							<input type="text" id="bairro" class="campo-desabilitado" disabled="">
+						</div>
+						<div>
+							<label for="cidade-estado">Cidade/Estado</label>
+							<input type="text" id="cidade-estado" class="campo-desabilitado" disabled="">
+						</div>
+					</div>
                     
                 </div>    
             </div>
