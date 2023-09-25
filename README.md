@@ -39,9 +39,10 @@ Uma vez executando, para acessar o front-end, basta abrir o [http://localhost:80
 Neste projeto é utilizado apenas a API externa OpenCEP.
 A OpenCEP é uma API pública para consulta de CEPs totalmente gratuita e Open Source.
 
-Licença de uso: Gratuita.
-Cadastro: Não necessário
-Rotas disponibilizadas: (via get) -> opencep.com/v1/
+- Licença de uso: Gratuita.
+
+- Cadastro: Não necessário
+- Rotas disponibilizadas: (via get) -> opencep.com/v1/
 
 Neste projeto foi utilizado apenas a rota **opencep.com/v1/** via get, passando o cep através da url, a fim de preencher os campos Logradouro, Bairro e Cidade/Estado automaticamente quando inserido um CEP válido no campo CEP.
 
