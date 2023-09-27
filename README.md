@@ -36,11 +36,10 @@ Uma vez executando, para acessar o front-end, basta abrir o [http://localhost:80
 
 ## Informações da API externa (Componente B)
 
-Neste projeto é utilizado apenas a API externa OpenCEP.
+Neste projeto é utilizado apenas a API externa [OpenCEP](https://opencep.com).
 A OpenCEP é uma API pública para consulta de CEPs totalmente gratuita e Open Source.
 
-- Licença de uso: Gratuita.
-
+- Licença de uso: Gratuita
 - Cadastro: Não necessário
 - Rotas disponibilizadas: (via get) -> opencep.com/v1/
 
